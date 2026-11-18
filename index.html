@@ -20,8 +20,8 @@
 <script>
 // Configure these two public values after creating your Supabase project.
 // The service role key and organizer password belong only in Supabase Edge Function secrets.
-const SUPABASE_URL='https://cpmspjkyavuecqemyqot.supabase.co';
-const SUPABASE_PUBLISHABLE_KEY='sb_publishable_58BEp66eDuQ30JLEdZcIEQ_W-IBsBiD';
+const SUPABASE_URL = "https://cpmspjkyavuecqemyqot.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_58BEp66eDuQ30JLEdZcIEQ_W-IBsBiD";
 const ROSTER=['Dann','Blair','ceecee','sarah','Vanessa','Ayeisha','Basti','Warren','Lore','Dongki','Joshua','Sofia','Jenny','Klienx2','Tito Amay','Kathleen','Ramil','Rk','Rap2x','Kevin','Franco','Con2x','Isa','Haizy','Kado','Coy 2','Maxine','Kenu'];
 let participantToken=sessionStorage.getItem('np-participant-token')||'',adminToken=sessionStorage.getItem('np-admin-token')||'',soundOn=true,roster=ROSTER.map(name=>({name})),lastDrawn=0;
 const configured=SUPABASE_URL.startsWith('https://')&&!SUPABASE_URL.includes('PASTE_')&&SUPABASE_PUBLISHABLE_KEY&&!SUPABASE_PUBLISHABLE_KEY.includes('PASTE_');
