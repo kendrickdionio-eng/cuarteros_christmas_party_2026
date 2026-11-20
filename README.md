@@ -22,7 +22,7 @@ The page's design and browser code are inside `index.html`. The `supabase` folde
 ## One-time Supabase setup
 
 1. Create a Supabase project.
-2. Open **SQL Editor → New query**, copy all of `supabase/schema.sql`, and run it. This creates the private tables, seeds the 28 names, and installs the secure draw and login-rate-limit functions.
+2. Open **SQL Editor → New query**, copy all of `supabase/schema.sql`, and run it. This creates or updates the private tables, assigns the 28 listed participants to their household groups, and installs the secure draw and login-rate-limit functions. If you already ran an earlier version of this SQL, run the updated file again before starting a new draw.
 3. In the project dashboard, find the project URL and **publishable key** (sometimes shown as the `anon` key). These two values are safe to use in the public page.
 4. Edit the two constants near the top of `index.html`:
 
@@ -50,13 +50,16 @@ The page's design and browser code are inside `index.html`. The `supabase` folde
 
 Open the Pages URL, select **Admin**, and sign in with the organizer password you set in Supabase. Set a personal access code for each participant, then share each code privately. Participant codes must be at least four characters; use unique codes.
 
-The first participant to draw causes the server to create a complete no-self, one-to-one assignment. Each participant can retrieve only their own assignment. The admin ledger shows only completed draws. Public status shows only the number of completed draws, and refreshes every three seconds. Adding names after the first draw is blocked; reset the exchange first if the roster needs changing.
+The first participant to draw causes the server to create a complete one-to-one assignment. Nobody is assigned to themselves or to someone in the same household group. Each participant can retrieve only their own assignment. The admin ledger shows only completed draws. Public status shows only the number of completed draws, and refreshes every three seconds. The organizer's **Add a participant** control asks for a household group; choose the correct group for every new name. Use **Set household group for selected participant** to fix any missing or incorrect group before a draw. Adding names or changing groups after the first draw is blocked; reset the exchange first if the roster needs changing.
+
+If anyone already drew using the older household-unrestricted assignment, update the SQL and deploy the function first. If the old assignment contains a same-household match that has already been revealed, sign in as admin and use **Reset all draws** before anyone draws again. This clears all assignments, so tell participants to disregard previous results. After reset, the next draw creates a fresh assignment that follows the household rule.
 
 ## Troubleshooting
 
 - **Setup warning remains:** Check the two values in `index.html`, commit the changes, and wait for the Pages deployment to finish.
 - **Login or draw request fails:** Confirm `supabase/schema.sql` ran successfully and `supabase functions deploy exchange` completed for the same project URL.
 - **Organizer login fails:** Check the `EXCHANGE_ADMIN_PASSWORD` secret in Supabase. Updating a secret takes effect without redeploying the function.
+- **Draw says a household group is missing:** Run the updated `supabase/schema.sql` in SQL Editor. For newly added names, select their household group in the admin panel.
 - **The page shows README text or HTML source:** Open the GitHub Pages link shown under **Settings → Pages**, not the repository file view. Confirm `index.html` is at the publishing folder's top level.
 
 ## Privacy and operating notes
